@@ -1,0 +1,105 @@
+---
+import '../styles/guide.css';
+
+// Same shell as Guide.astro, minus the checklist toolbar: findings pages have
+// nothing to tick off, and an empty "0 of 0 done" progress bar reads as a bug.
+const { frontmatter } = Astro.props;
+const title = frontmatter?.title ?? 'Cost of Fear';
+const description = frontmatter?.description ?? '';
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:type" content="article" />
+    <script is:inline>
+      // Apply a saved theme choice before the page paints, so there is no flash.
+      try {
+        var t = localStorage.getItem('cof-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Lexend:wght@300;400;600;700&display=swap"
+    />
+  </head>
+
+  <body>
+    <div class="sheet">
+      <header class="mast">
+        <p class="wordmark">UCLA Latino Policy &amp; Politics Institute</p>
+        <h1>{title}</h1>
+      </header>
+
+      <div class="toolbar" id="toolbar">
+        <a class="backlink" href={base}>← Replication guide</a>
+        <button type="button" id="print">Save as PDF</button>
+        <button type="button" id="theme" aria-label="Switch color theme">Theme: Auto</button>
+      </div>
+
+      <main class="guide">
+        <slot />
+      </main>
+
+      <footer class="foot">
+        <p>
+          Questions, or want the code? Open an issue at
+          <a href="https://github.com/albertkun/ice-impact-replication">github.com/albertkun/ice-impact-replication</a>.
+        </p>
+      </footer>
+    </div>
+
+    <style is:inline>
+      .toolbar .backlink {
+        margin-right: auto;
+        color: var(--brand);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      .toolbar .backlink:hover { text-decoration: underline; }
+    </style>
+
+    <script is:inline>
+      (function () {
+        document.getElementById('print').addEventListener('click', function () {
+          window.print();
+        });
+
+        // Theme: Auto follows the device. Light and Dark override it.
+        var themeBtn = document.getElementById('theme');
+        var THEMES = ['auto', 'light', 'dark'];
+        var LABELS = { auto: 'Theme: Auto', light: 'Theme: Light', dark: 'Theme: Dark' };
+
+        function currentTheme() {
+          var t = document.documentElement.dataset.theme;
+          return t === 'light' || t === 'dark' ? t : 'auto';
+        }
+        function applyTheme(t) {
+          if (t === 'auto') delete document.documentElement.dataset.theme;
+          else document.documentElement.dataset.theme = t;
+          themeBtn.textContent = LABELS[t];
+          try {
+            if (t === 'auto') localStorage.removeItem('cof-theme');
+            else localStorage.setItem('cof-theme', t);
+          } catch (e) {}
+        }
+        themeBtn.addEventListener('click', function () {
+          var next = THEMES[(THEMES.indexOf(currentTheme()) + 1) % THEMES.length];
+          applyTheme(next);
+        });
+        themeBtn.textContent = LABELS[currentTheme()];
+      })();
+    </script>
+  </body>
+</html>

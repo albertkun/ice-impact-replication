@@ -17,6 +17,9 @@ picking your spend-per-visit rates.
 nearby businesses in the 14 days before and the 14 days after. Then those lost visits turned into
 dollars.
 
+**Asking about parks?** Standard foot traffic data barely covers them — LA County has 3,543 parks and
+the data has 14. Read [Can You Measure Parks?](./parks) before you buy anything.
+
 ## Start with your study area
 
 Pick your study area first. This one choice affects everything else: how much data you download, how
