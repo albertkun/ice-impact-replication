@@ -5,11 +5,25 @@ around immigration enforcement actions in their own area.
 
 Live site: https://albertkun.github.io/ice-impact-replication
 
-## The partner one-pager
+## The one-pagers
 
-`docs/Cost_of_Fear_Replication_Options.docx` describes the three ways a jurisdiction can work with us.
-It is kept here for version history and is deliberately not part of the built site, because it carries
-draft pricing. Move it to `public/` only if it should be publicly downloadable.
+Two versions of the engagement one-pager live in `docs/`. Both describe the same three options; they
+differ in what they say about money.
+
+| File | Rates shown | Use it for |
+|---|---|---|
+| `Cost_of_Fear_Replication_Options.docx` | Estimated cost per option, $200/hr | Internal scoping and budgeting |
+| `Methodological_TA_Cost_of_Fear.docx` | None. Estimated hours only | Sending to partner jurisdictions |
+
+The partner version lists the shared research inbox rather than a personal address, and carries a QR
+code to the report page at
+https://latino.ucla.edu/research/immigration-enforcement-small-businesses-los-angeles/
+
+Neither file is part of the built site, so the priced version cannot be downloaded from the web by
+accident. Move a file to `public/` only if it should be publicly downloadable.
+
+The QR was generated from the report URL directly. To swap in a branded, click-tracked link instead,
+make one at https://www.ucla.edu/uclain/ and regenerate.
 
 ## Editing the guide
 
