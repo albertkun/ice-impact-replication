@@ -5,6 +5,12 @@ around immigration enforcement actions in their own area.
 
 Live site: https://albertkun.github.io/ice-impact-replication
 
+## The partner one-pager
+
+`docs/Cost_of_Fear_Replication_Options.docx` describes the three ways a jurisdiction can work with us.
+It is kept here for version history and is deliberately not part of the built site, because it carries
+draft pricing. Move it to `public/` only if it should be publicly downloadable.
+
 ## Editing the guide
 
 All of the text lives in one file:
