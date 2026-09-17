@@ -85,7 +85,7 @@ the volume of Latino tracts, so on a linear axis the other lines compress toward
 4. **Whether visits are normalised, and to what.** "Panel-normalised" and "raw device counts" support
    completely different claims.
 
-The rest of the replication guide assumes you have these. [Start there](./).
+The rest of the replication guide assumes you have these. [Start there](./guide).
 
 ## Download the tables
 
