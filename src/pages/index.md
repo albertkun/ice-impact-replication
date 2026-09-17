@@ -4,6 +4,49 @@ title: Cost of Fear Replication Guide
 description: How to measure foot traffic changes and lost sales around immigration enforcement actions in your own area.
 ---
 
+<div class="hub">
+  <a href="#start-with-your-study-area">
+    <span class="kind">Guide</span>
+    <span class="name">Run the analysis →</span>
+    <span class="what">Six steps, from downloading the data to lost sales in dollars. Most of it is scripted.</span>
+  </a>
+  <a href="./datasets">
+    <span class="kind">Findings</span>
+    <span class="name">Which dataset covers your neighborhoods?</span>
+    <span class="what">Raw counts by neighborhood type and year for every product we tested, and what to ask a vendor.</span>
+  </a>
+  <a href="./parks">
+    <span class="kind">Findings</span>
+    <span class="name">Can you measure parks?</span>
+    <span class="what">Foot traffic data has 14 of LA's 3,543 parks. What we tried instead, and what it cost.</span>
+  </a>
+  <a href="./neighborhood-explorer.html">
+    <span class="kind">Explorer</span>
+    <span class="name">Neighborhood data</span>
+    <span class="what">All 2,493 LA tracts by composition, with raw counts by year from each dataset.</span>
+  </a>
+  <a href="./park-inventory-explorer.html">
+    <span class="kind">Explorer</span>
+    <span class="name">Park inventory</span>
+    <span class="what">3,543 park records with quality flags, visit coverage and the parking-lot field.</span>
+  </a>
+  <a href="./parks-explorer.html">
+    <span class="kind">Explorer</span>
+    <span class="name">In-park venue traffic</span>
+    <span class="what">Park boundaries, the venues inside them, and the nine enforcement sites.</span>
+  </a>
+  <a href="./datasets#download-the-tables">
+    <span class="kind">Data</span>
+    <span class="name">Download the tables</span>
+    <span class="what">Twelve CSVs behind every number on this site, plus the tract geometry.</span>
+  </a>
+  <a href="https://github.com/albertkun/ice-impact-replication">
+    <span class="kind">Code</span>
+    <span class="name">GitHub repository</span>
+    <span class="what">Scripts, issues and the source for this site.</span>
+  </a>
+</div>
+
 This guide shows you how to run our analysis in your own area.
 
 We measured how much foot traffic dropped at businesses near immigration enforcement actions, and
@@ -16,12 +59,6 @@ picking your spend-per-visit rates.
 **What you will end up with:** for each enforcement site, the change in average daily visits at
 nearby businesses in the 14 days before and the 14 days after. Then those lost visits turned into
 dollars.
-
-**Asking about parks?** Standard foot traffic data barely covers them — LA County has 3,543 parks and
-the data has 14. Read [Can You Measure Parks?](./parks) before you buy anything.
-
-**Choosing a dataset?** [Which Dataset Covers Your Neighborhoods?](./datasets) gives raw counts by
-neighborhood type and year for every product we tested, plus the four questions to put to a vendor.
 
 ## Start with your study area
 
