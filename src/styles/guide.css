@@ -562,3 +562,37 @@ img {
     text-decoration: none;
   }
 }
+
+/* Site index — the card grid at the top of the guide. Cards, not a list, so the
+   guide's own ::before list markers and the checklist counter leave them alone. */
+.hub {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+  margin: 1.4rem 0 2rem;
+}
+/* Bordered cards with a real gap, not the 1px-gap-over-a-tinted-container trick:
+   with eight cards in a three-column grid that leaves an empty cell showing the
+   container colour, which reads as a broken tile. */
+.hub > a {
+  background: var(--sheet);
+  border: 1px solid var(--rule-soft);
+  border-radius: 5px;
+  padding: 14px 16px 15px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hub > a:hover { background: var(--brand-wash); border-color: var(--rule); }
+.hub .kind {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hub .name { font-weight: 600; font-size: 15.5px; color: var(--brand); line-height: 1.25; }
+.hub > a:hover .name { text-decoration: underline; }
+.hub .what { font-size: 13.5px; color: var(--ink-soft); line-height: 1.45; }

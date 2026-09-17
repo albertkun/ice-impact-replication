@@ -1,0 +1,5 @@
+spec,treatment,pre_mean_pct,pre_weeks_significant,post_mean_pct,week0_pct
+UNTRIMMED,latino,20.1,12.0,3.6,2.1
+UNTRIMMED,near3,8.6,5.0,1.2,-0.5
+TRIMMED per-day,latino,19.1,13.0,3.5,1.8
+TRIMMED per-day,near3,9.1,8.0,2.1,0.1
