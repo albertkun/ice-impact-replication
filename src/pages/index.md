@@ -20,6 +20,9 @@ dollars.
 **Asking about parks?** Standard foot traffic data barely covers them — LA County has 3,543 parks and
 the data has 14. Read [Can You Measure Parks?](./parks) before you buy anything.
 
+**Choosing a dataset?** [Which Dataset Covers Your Neighborhoods?](./datasets) gives raw counts by
+neighborhood type and year for every product we tested, plus the four questions to put to a vendor.
+
 ## Start with your study area
 
 Pick your study area first. This one choice affects everything else: how much data you download, how
