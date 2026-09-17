@@ -1,0 +1,338 @@
+---
+// Site index. Styled after latino.ucla.edu rather than the guide: UCLA Blue
+// #2774AE with the darkest blue #003B5C, the LPPI teal #007989 for links, and
+// bold condensed uppercase headings at 90% leading, which is that site's
+// signature. Aktiv Grotesk Condensed is licensed, so Barlow Condensed stands in.
+//
+// Deliberately self-contained — it does not import guide.css. The guide and the
+// findings pages keep their own reading-focused look; this is a landing page.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const title = 'Cost of Fear';
+const description =
+  'Replication guide, findings and data explorers for measuring foot traffic changes around immigration enforcement. UCLA Latino Policy & Politics Institute.';
+
+const cards = [
+  { kind: 'Guide', name: 'Run the analysis', href: `${base}/guide`,
+    what: 'Six steps, from downloading the data to lost sales in dollars. Most of it is scripted.',
+    wide: true },
+  { kind: 'Findings', name: 'Which dataset covers your neighborhoods?', href: `${base}/datasets`,
+    what: 'Raw counts by neighborhood type and year for every product we tested, and what to ask a vendor.' },
+  { kind: 'Findings', name: 'Can you measure parks?', href: `${base}/parks`,
+    what: "Foot traffic data has 14 of LA's 3,543 parks. What we tried instead, and what it cost." },
+  { kind: 'Explorer', name: 'Neighborhood data', href: `${base}/neighborhood-explorer.html`,
+    what: 'All 2,493 LA tracts by composition, with raw counts by year from each dataset.' },
+  { kind: 'Explorer', name: 'Park inventory', href: `${base}/park-inventory-explorer.html`,
+    what: '3,543 park records with quality flags, visit coverage and the parking-lot field.' },
+  { kind: 'Explorer', name: 'In-park venue traffic', href: `${base}/parks-explorer.html`,
+    what: 'Park boundaries, the venues inside them, and the nine enforcement sites.' },
+  { kind: 'Data', name: 'Download the tables', href: `${base}/datasets#download-the-tables`,
+    what: 'Twelve CSVs behind every number on this site, plus the tract geometry.' },
+  { kind: 'Code', name: 'GitHub repository', href: 'https://github.com/albertkun/ice-impact-replication',
+    what: 'Scripts, issues and the source for this site.' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script is:inline>
+      try {
+        var t = localStorage.getItem('cof-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+    />
+    <style is:inline>
+      :root {
+        --brand: #2774ae;
+        --brand-darker: #003b5c;
+        --brand-light: #8bb8e8;
+        --brand-lighter: #c3d7ee;
+        --brand-lightest: #dce3e9;
+        --teal: #007989;
+        --ground: #ffffff;
+        --sheet: #ffffff;
+        --ink: #111827;
+        --ink-soft: #374151;
+        --muted: #6b7280;
+        --rule: #e5e7eb;
+        --rule-firm: #d1d5db;
+        --hero-ink: #ffffff;
+        --display: 'Barlow Condensed', 'Arial Narrow', Inter, system-ui, sans-serif;
+        --body: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+        --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --brand: #5b9cc4;
+          --brand-darker: #0b1c28;
+          --brand-light: #8bb8e8;
+          --brand-lighter: #24405a;
+          --brand-lightest: #16293a;
+          --teal: #4fb3bf;
+          --ground: #0e1a24;
+          --sheet: #152532;
+          --ink: #e3ebf1;
+          --ink-soft: #c0d0dc;
+          --muted: #8ba3b6;
+          --rule: #2a3d4d;
+          --rule-firm: #375061;
+          --hero-ink: #ffffff;
+        }
+      }
+      :root[data-theme='dark'] {
+        --brand: #5b9cc4;
+        --brand-darker: #0b1c28;
+        --brand-light: #8bb8e8;
+        --brand-lighter: #24405a;
+        --brand-lightest: #16293a;
+        --teal: #4fb3bf;
+        --ground: #0e1a24;
+        --sheet: #152532;
+        --ink: #e3ebf1;
+        --ink-soft: #c0d0dc;
+        --muted: #8ba3b6;
+        --rule: #2a3d4d;
+        --rule-firm: #375061;
+        --hero-ink: #ffffff;
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--ground);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+      /* Top bar: wordmark left, theme toggle right, thin rule under. */
+      .topbar {
+        border-bottom: 1px solid var(--rule);
+        background: var(--sheet);
+      }
+      .topbar .wrap {
+        display: flex; align-items: center; gap: 14px;
+        min-height: 64px; padding-block: 12px;
+      }
+      .wordmark {
+        font-family: var(--display);
+        font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;
+        font-size: 17px; line-height: 1.05; color: var(--brand-darker); margin: 0;
+        max-width: 22ch;
+      }
+      :root[data-theme='dark'] .wordmark,
+      :root:not([data-theme='light']) .wordmark { color: var(--ink); }
+      @media (prefers-color-scheme: light) { :root:not([data-theme='dark']) .wordmark { color: var(--brand-darker); } }
+      .topbar button {
+        margin-left: auto;
+        font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 8px 13px; border: 1px solid var(--rule-firm); border-radius: 2px;
+        background: transparent; color: var(--ink-soft); cursor: pointer;
+      }
+      .topbar button:hover { border-color: var(--brand); color: var(--brand); }
+
+      /* Hero: solid darkest-blue band, oversized condensed uppercase headline. */
+      .hero { background: var(--brand-darker); color: var(--hero-ink); }
+      .hero .wrap { padding-block: clamp(42px, 7vw, 76px); }
+      .eyebrow {
+        font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--brand-light); margin: 0 0 18px;
+      }
+      .hero h1 {
+        font-family: var(--display);
+        font-weight: 700; text-transform: uppercase;
+        font-size: clamp(42px, 9vw, 86px);
+        line-height: 0.9; letter-spacing: -0.01em;
+        margin: 0; max-width: 24ch; text-wrap: balance;
+      }
+      .hero p {
+        margin: 22px 0 0; max-width: 62ch; font-size: clamp(16px, 1.6vw, 18.5px);
+        color: var(--brand-lighter); line-height: 1.55;
+      }
+      .hero .stats {
+        display: flex; flex-wrap: wrap; gap: 14px 40px; margin-top: 30px;
+        padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, 0.22);
+      }
+      .hero .stat b {
+        display: block; font-family: var(--display); font-weight: 700;
+        font-size: 34px; line-height: 1; letter-spacing: -0.01em;
+      }
+      .hero .stat span {
+        font-family: var(--mono); font-size: 11px; letter-spacing: 0.09em;
+        text-transform: uppercase; color: var(--brand-light);
+      }
+
+      /* Section heading: brand rule, then condensed uppercase. */
+      section { padding-block: clamp(34px, 5vw, 54px); }
+      section + section { padding-top: 0; }
+      .sechead { border-top: 3px solid var(--brand); padding-top: 14px; margin-bottom: 22px; }
+      .sechead h2 {
+        font-family: var(--display); font-weight: 700; text-transform: uppercase;
+        font-size: clamp(24px, 3.2vw, 33px); line-height: 0.95; letter-spacing: -0.005em;
+        margin: 0; color: var(--ink);
+      }
+      .sechead p { margin: 9px 0 0; color: var(--muted); font-size: 15px; max-width: 72ch; }
+
+      /* Card grid, LPPI style: thin border, uppercase teal eyebrow, arrow CTA. */
+      .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+      .cards a {
+        grid-column: span 1;
+        display: flex; flex-direction: column;
+        background: var(--sheet);
+        border: 1px solid var(--rule);
+        border-top: 3px solid var(--brand);
+        padding: 20px 20px 18px;
+        text-decoration: none; color: var(--ink);
+        transition: border-color 0.15s, transform 0.15s;
+      }
+      .cards a.wide { grid-column: span 3; }
+      .cards a:hover { border-color: var(--rule-firm); border-top-color: var(--teal); transform: translateY(-2px); }
+      .cards a:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+      .cards .kind {
+        font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.13em;
+        text-transform: uppercase; color: var(--teal); margin-bottom: 9px;
+      }
+      .cards .name {
+        font-family: var(--display); font-weight: 700; text-transform: uppercase;
+        font-size: 22px; line-height: 1.0; letter-spacing: -0.005em;
+        color: var(--ink); margin-bottom: 9px; text-wrap: balance;
+      }
+      .cards a.wide .name { font-size: clamp(26px, 3.4vw, 34px); }
+      .cards .what { font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
+      .cards .go {
+        margin-top: 14px; font-family: var(--mono); font-size: 11px;
+        letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal);
+      }
+      .cards a:hover .go { text-decoration: underline; }
+
+      footer.site {
+        border-top: 1px solid var(--rule); background: var(--sheet);
+        margin-top: clamp(28px, 5vw, 50px);
+      }
+      footer.site .wrap { padding-block: 26px 34px; }
+      footer.site p { margin: 0 0 7px; color: var(--muted); font-size: 13.5px; max-width: 78ch; }
+      footer.site a { color: var(--teal); }
+
+      @media (max-width: 900px) {
+        .cards { grid-template-columns: repeat(2, 1fr); }
+        .cards a.wide { grid-column: span 2; }
+      }
+      @media (max-width: 560px) {
+        .cards { grid-template-columns: 1fr; }
+        .cards a.wide { grid-column: span 1; }
+        .cards a.wide .name { font-size: 24px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cards a { transition: none; }
+        .cards a:hover { transform: none; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="topbar">
+      <div class="wrap">
+        <p class="wordmark">UCLA Latino Policy &amp; Politics Institute</p>
+        <button type="button" id="theme" aria-label="Switch color theme">Theme: Auto</button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Data for action · Los Angeles County</p>
+        <h1>The Cost of Fear</h1>
+        <p>
+          How much foot traffic dropped at businesses near immigration enforcement actions, what it
+          meant in lost sales, and how to run the same analysis where you are. Every method, number
+          and caveat is here.
+        </p>
+        <div class="stats">
+          <div class="stat"><b>113,563</b><span>Businesses tracked</span></div>
+          <div class="stat"><b>362</b><span>Weeks of foot traffic</span></div>
+          <div class="stat"><b>9</b><span>Enforcement sites</span></div>
+          <div class="stat"><b>4</b><span>Datasets tested</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <section>
+        <div class="sechead">
+          <h2>Start here</h2>
+          <p>
+            The guide walks through the analysis step by step. The findings pages cover what we
+            learned about the data itself — read those before you buy anything.
+          </p>
+        </div>
+        <div class="cards">
+          {cards.map((c) => (
+            <a href={c.href} class={c.wide ? 'wide' : ''}>
+              <span class="kind">{c.kind}</span>
+              <span class="name">{c.name}</span>
+              <span class="what">{c.what}</span>
+              <span class="go">{c.kind === 'Explorer' ? 'Open →' : c.kind === 'Data' ? 'Download →' : c.kind === 'Code' ? 'View →' : 'Read →'}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <footer class="site">
+      <div class="wrap">
+        <p>
+          UCLA Latino Policy &amp; Politics Institute. Foot traffic from Advan Research via Dewey
+          Data; park locations and boundaries from SafeGraph Global Places; neighborhood
+          classification from ACS 2018–2022.
+        </p>
+        <p>
+          Questions, or want the code? Open an issue at
+          <a href="https://github.com/albertkun/ice-impact-replication">github.com/albertkun/ice-impact-replication</a>.
+        </p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById('theme');
+        var THEMES = ['auto', 'light', 'dark'];
+        var LABELS = { auto: 'Theme: Auto', light: 'Theme: Light', dark: 'Theme: Dark' };
+        function current() {
+          var t = document.documentElement.dataset.theme;
+          return t === 'light' || t === 'dark' ? t : 'auto';
+        }
+        function apply(t) {
+          if (t === 'auto') delete document.documentElement.dataset.theme;
+          else document.documentElement.dataset.theme = t;
+          btn.textContent = LABELS[t];
+          try {
+            if (t === 'auto') localStorage.removeItem('cof-theme');
+            else localStorage.setItem('cof-theme', t);
+          } catch (e) {}
+        }
+        btn.addEventListener('click', function () {
+          apply(THEMES[(THEMES.indexOf(current()) + 1) % THEMES.length]);
+        });
+        btn.textContent = LABELS[current()];
+      })();
+    </script>
+  </body>
+</html>

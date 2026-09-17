@@ -2,6 +2,7 @@
 import '../styles/guide.css';
 
 const { frontmatter } = Astro.props;
+const base = import.meta.env.BASE_URL;
 const title = frontmatter?.title ?? 'Cost of Fear Replication Guide';
 const description = frontmatter?.description ?? '';
 ---
@@ -40,6 +41,7 @@ const description = frontmatter?.description ?? '';
       </header>
 
       <div class="toolbar" id="toolbar">
+        <a class="backlink" href={base}>← All findings and tools</a>
         <span class="count" id="count">0 of 0 done</span>
         <div class="bar"><span id="bar"></span></div>
         <button type="button" id="print">Save as PDF</button>
@@ -182,5 +184,9 @@ const description = frontmatter?.description ?? '';
         render();
       })();
     </script>
+    <style is:inline>
+      .toolbar .backlink { color: var(--brand); text-decoration: none; font-size: 0.9rem; margin-right: 0.35rem; }
+      .toolbar .backlink:hover { text-decoration: underline; }
+    </style>
   </body>
 </html>
