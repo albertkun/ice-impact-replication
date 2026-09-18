@@ -53,8 +53,12 @@ happened — have nothing inside them to measure.
 
 ## What the proxy showed
 
-Change in visits to in-park venues over the four weeks after 6 June 2025, compared with the same weeks
-of 2024:
+The comparison is seasonal, not raw. Every one of these parks gets busier from spring into summer, so
+the question is not whether traffic rose but whether it rose as much as it had the year before. A
+smaller summer step than 2024's *is* a decline against the counterfactual, even when the level is up.
+
+Change in visits to in-park venues over the four weeks after 6 June 2025, against the four weeks
+before, compared with the same two windows of 2024:
 
 | Park | 2025 | 2024 | Difference |
 |---|---|---|---|
@@ -64,17 +68,54 @@ of 2024:
 | Griffith Park | +14.7% | +24.9% | −10.2 points |
 | Sepulveda Basin Recreation Area | −3.3% | +5.5% | −8.8 points |
 
-Most parks rose into summer 2025 more weakly than they had in 2024. Eighty-two parks had a series clean
-enough to report.
+### The screen matters more than the result
 
-**Do not read this as an effect of enforcement.** There is no control group, no correction for panel
-attrition, and the mix of venues differs from park to park. It is a signal worth investigating, not a
-finding.
+An earlier version of this page reported 82 parks and a −3.4 point shortfall. **That screen was too
+loose, and we have replaced it.** Two passes of cleaning, both of which you can reproduce:
+
+| Screen | Parks | Summer step 2024 | Summer step 2025 | Shortfall |
+|---|---|---|---|---|
+| Any polygon that looks like a park (first pass) | 82 | +13.8% | +10.3% | −3.4 points |
+| Minus malls, hotels, parking, convention centres | 61 | +9.6% | +4.1% | −5.5 points |
+| **Park amenities only** | **28** | **+11.2%** | **+1.1%** | **−10.1 points** |
+
+The third row is the one to use. It keeps museums, concessions, rec centers, libraries and nature
+sites, and drops anything you book or pay to enter — golf courses, RV parks, theme parks, marinas,
+racetracks — because their traffic follows a business cycle rather than park use. Griffith Park and
+Sepulveda Basin are kept by name despite their municipal golf, on the grounds that golf inside a large
+public park is park land.
+
+Splitting the two windows shows where the shortfall lives. Across the 28 parks the **spring baseline
+was flat year over year (+1.2%) and summer traffic fell 8.0%.** By distance to the nearest enforcement
+site:
+
+| Distance to nearest site | Parks | Spring 2025 vs 2024 | Summer 2025 vs 2024 | Shortfall |
+|---|---|---|---|---|
+| Within 5 miles | 6 | +0.4% | −11.3% | −12.1 points |
+| 5–15 miles | 18 | +1.7% | −6.9% | −9.8 points |
+| Beyond 15 miles | 4 | −2.7% | +1.1% | +4.0 points |
+
+Do this decomposition on your own data before you believe a ratio. A park can post a large apparent
+"gain" purely because its spring baseline was weak: Frank G. Bonelli Regional Park showed +33 points
+until we looked, and its summer 2025 was in fact 3% *below* summer 2024 — the swing came from its RV
+campground having a bad spring. Ratios move for two reasons and only one of them is the one you want.
+
+**Do not read this as an effect of enforcement.** There is still no control group, no correction for
+panel attrition, and the mix of venues differs from park to park. It is a signal worth investigating,
+not a finding.
+
+> **The bug that produced the first number.** `SUB_CATEGORY` values in SafeGraph Places carry a
+> **trailing space** — `"Parking Lots and Garages "`, not `"Parking Lots and Garages"`. Every
+> exact-match filter we wrote silently matched nothing. That is how "Pike Park" in Long Beach reached
+> our first table at +50 points: eight venues, six of them a parking structure and a convention
+> centre, none of them caught by a screen that was supposed to catch exactly that. Call `.str.strip()`
+> before you match, and then look at the actual venue names in your top and bottom ten.
 
 And when we did investigate it with a source that measures parks directly, it did not hold up — see
-below. The two are measuring different things: this table is 223 destination parks seen through their
-concessions and museums, and the section below is 49 parks measured as whole block groups. Where they
-disagree, trust the direct measure.
+below. The two are measuring different things: this table is destination parks seen through their
+concessions and museums, and the section below is 49 parks measured as whole block groups. They also
+disagree on distance — the venue proxy has parks nearest the enforcement sites falling furthest, and
+the block-group measure has them doing best. Where they disagree, trust the direct measure.
 
 ## We then tried both remaining options. Here is what they cost and what they gave.
 
@@ -85,9 +126,10 @@ filtered server-side, but the files are Parquet served over URLs that honour HTT
 so you can fetch just the columns you need and never store a file. We pulled 183 days for 2,513
 LA parks that way, at about 9% of the source bytes.
 
-**The data was not usable for an impact estimate.** The feed grew roughly **30× inside 2025** —
-309 visits per park in the week of 11 May, 3,845 by 29 June. Any before-and-after comparison
-measures the feed being built out. Worse, when we ran the weekly event study that tests the
+**The data was not usable for an impact estimate.** The feed grew roughly **14× inside 2025** —
+584 visits per park in the week of 1 March, 8,037 by 27 June, across a stable set of 431 parks. Any
+before-and-after comparison measures the feed being built out. (An earlier version of this page said
+30×, from a partial run; 14× is the figure our published weekly series reproduces.) Worse, when we ran the weekly event study that tests the
 assumption, **the pre-period coefficients averaged +20% with 12 of 13 weeks significant**: treated
 and control parks were already diverging months before June. The post-period coefficients were
 near zero.

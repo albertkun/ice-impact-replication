@@ -101,9 +101,12 @@ Every number on this page and in [Can You Measure Parks?](./parks) comes from th
 | [np_park_yoy_step.csv](../data/np_park_yoy_step.csv) | Park block-group stops, year-over-year step at June 2025 |
 | [np_park_visitor_share_monthly.csv](../data/np_park_visitor_share_monthly.csv) | Park visitor composition by home neighborhood, monthly |
 | [np_park_visitor_ratio.csv](../data/np_park_visitor_ratio.csv) | Visitor share ÷ panel share — park-visiting intensity |
+| [np_park_visitor_raw_monthly.csv](../data/np_park_visitor_raw_monthly.csv) | The raw counts behind those shares: park visitors and panel roster, by home neighborhood, monthly |
 | [np_park_summer_ratio.csv](../data/np_park_summer_ratio.csv) | Park vs county summer share, by year |
 | [np_seasonality_trim_robustness.csv](../data/np_seasonality_trim_robustness.csv) | The same ratio under three outlier treatments |
+| [park_venue_screens.csv](../data/park_venue_screens.csv) | All 223 parks with in-park venues: venue mix, distance to the nearest enforcement site, and which of the three screens each park passes |
 | [veraset_trim_event_study.csv](../data/veraset_trim_event_study.csv) | Veraset pre-trend test, trimmed and untrimmed |
+| [veraset_feed_growth_weekly.csv](../data/veraset_feed_growth_weekly.csv) | Veraset visits per park by week, the series behind the 14× figure |
 | [neighborhood-data.json](../neighborhood-data.json) | The explorer'"'"'s own data: 2,493 tract geometries with composition, plus every series above |
 
 The scripts that produce them live in the analysis repo; open an issue if you want them.
