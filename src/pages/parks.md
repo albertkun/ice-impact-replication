@@ -9,7 +9,7 @@ Several people asked whether the Cost of Fear method extends from storefronts to
 We tested it in LA County. The short answer: **not directly, and the reason is worth knowing before you
 buy any data.** This page shows what we found, so you do not repeat the work.
 
-**Three explorers, all self-contained:**
+**Four explorers, all self-contained:**
 
 - [**Park inventory →**](../park-inventory-explorer.html) — all 3,543 SafeGraph park records, with
   record quality, visit-data coverage and the parking-lot flag that decides whether agency vehicle
@@ -18,6 +18,9 @@ buy any data.** This page shows what we found, so you do not repeat the work.
   nine enforcement sites
 - [**Neighborhood data →**](../neighborhood-explorer.html) — every tract by composition, with raw
   counts by year from each dataset we tested
+- [**What are the large parks? →**](../large-parks-map.html) — the census block groups behind the
+  Neighborhood Patterns+ result, with the official parks, SafeGraph boundaries and businesses inside
+  each one
 
 ## The problem: foot traffic data has almost no parks in it
 
