@@ -87,6 +87,7 @@
   .sw { width: 13px; height: 13px; border-radius: 2px; flex: none; border: 1px solid rgba(0,0,0,.25); }
   .sw.dot { border-radius: 50%; }
   .sw.line { height: 0; border: 0; border-top: 3px solid; }
+  [hidden] { display: none !important; }
   .sub2 { padding-left: 21px; font-size: 12.5px; color: var(--ink-soft); display: flex; gap: 8px; align-items: center; }
   input[type="search"] { width: 100%; font: inherit; font-size: 13.5px; padding: 8px 10px; border: 1px solid var(--rule-firm);
                          background: var(--panel); color: var(--ink); border-radius: 2px; }
@@ -123,7 +124,7 @@
     <div>
       <p class="eyebrow">Parks · Advan Neighborhood Patterns+</p>
       <h1>What are the large parks?</h1>
-      <p class="sub">Neighborhood Patterns+ counts stops in census block groups. The green block groups are the ones that are mostly parkland, which is what the large-park result rests on. Click one to see what is in it.</p>
+      <p class="sub">Neighborhood Patterns+ counts stops in census block groups. The green areas are the 46 block groups that are mostly parkland, which the large-park result rests on. Click one to see what is in it; turn on more layers on the left.</p>
     </div>
     <div class="counts">
       <div><b>170</b><span>park block groups (25%+)</span></div>
@@ -135,31 +136,25 @@
     <div class="controls">
       <div class="grp"><h2>Find a park or block group</h2>
         <input type="search" id="q" placeholder="Whittier Narrows, Hansen Dam, 060379800361…" aria-label="Search"></div>
-      <div class="grp"><h2>Block groups</h2>
-        <label class="chk"><input type="checkbox" id="lBG" checked><span class="sw line" style="border-color:#888;border-top-width:2px"></span> All census block groups (outline)</label>
-        <label class="chk"><input type="checkbox" id="lTier" checked><span class="sw" style="background:var(--t50)"></span> Park block groups, by share of land that is park</label>
-        <div class="sub2"><span class="sw" style="background:var(--t75)"></span>75%+ &nbsp; <span class="sw" style="background:var(--t50)"></span>50–75% &nbsp; <span class="sw" style="background:var(--t25)"></span>25–50%</div>
-        <div class="sub2"><span class="sw" style="background:transparent;border:2px dashed var(--stadium)"></span> left out: holds a stadium or arena</div>
-        <label class="chk"><input type="checkbox" id="lTr"><span class="sw" style="background:var(--latino);opacity:.6"></span> Census tracts; 70%+ Latino tinted</label>
+      <div class="grp"><h2>On at the start</h2>
+        <label class="chk"><input type="checkbox" id="lTier" checked><span class="sw" style="background:var(--t75)"></span> The 46 large-park areas (block groups 50%+ park)</label>
+        <div class="sub2" data-for="lTier"><span class="sw" style="background:transparent;border:2px dashed var(--stadium)"></span> left out: holds a stadium or arena, or a month of data is missing</div>
+        <label class="chk"><input type="checkbox" id="lRaid" checked><span class="sw dot" style="background:var(--raid)"></span> The nine June 2025 enforcement sites</label>
       </div>
-      <div class="grp"><h2>Parks</h2>
-        <label class="chk"><input type="checkbox" id="lCP" checked><span class="sw" style="background:var(--county)"></span> Official parks (LA County layer), by who runs them</label>
-        <div class="sub2" style="flex-wrap:wrap;gap:4px 10px">
+      <div class="grp"><h2>Add more</h2>
+        <label class="chk"><input type="checkbox" id="lRing"><span class="sw dot" style="background:transparent;border:2px dashed var(--raid)"></span> 5-mile rings around the sites</label>
+        <label class="chk"><input type="checkbox" id="lMid"><span class="sw" style="background:var(--t25)"></span> Other park block groups (25–50% park)</label>
+        <label class="chk"><input type="checkbox" id="lCP"><span class="sw" style="background:var(--county)"></span> Official parks (LA County layer), by who runs them</label>
+        <div class="sub2" data-for="lCP" style="flex-wrap:wrap;gap:4px 10px">
           <span><span class="sw" style="background:var(--county);display:inline-block;vertical-align:middle"></span> LA County</span>
           <span><span class="sw" style="background:var(--cityla);display:inline-block;vertical-align:middle"></span> City of LA</span>
-          <span><span class="sw" style="background:var(--othercity);display:inline-block;vertical-align:middle"></span> other city</span>
-          <span><span class="sw" style="background:var(--state);display:inline-block;vertical-align:middle"></span> State</span>
-          <span><span class="sw" style="background:var(--federal);display:inline-block;vertical-align:middle"></span> Federal</span>
-          <span><span class="sw" style="background:var(--otherag);display:inline-block;vertical-align:middle"></span> other</span></div>
-        <label class="chk"><input type="checkbox" id="lSG" checked><span class="sw line" style="border-color:var(--sg)"></span> SafeGraph park boundaries (what the business analysis used)</label>
-        <div class="sub2"><span class="sw line" style="border-color:var(--sg28);border-top-width:4px"></span> thick green: in the 28</div>
-        <div class="sub2"><span class="sw line" style="border-color:var(--sg);border-top-style:dashed"></span> dashed: in the 42, not the 28</div>
-        <label class="chk"><input type="checkbox" id="lPOI"><span class="sw dot" style="background:var(--ink-soft)"></span> Businesses Advan sees inside park block groups</label>
-      </div>
-      <div class="grp"><h2>Enforcement</h2>
-        <label class="chk"><input type="checkbox" id="lRaid" checked><span class="sw dot" style="background:var(--raid)"></span> The nine June 2025 sites, with 5-mile rings</label>
-      </div>
-      <div class="grp"><h2>Basemap</h2>
+          <span><span class="sw" style="background:var(--otherag);display:inline-block;vertical-align:middle"></span> everyone else</span></div>
+        <label class="chk"><input type="checkbox" id="lSG"><span class="sw line" style="border-color:var(--sg)"></span> SafeGraph park boundaries (what the business analysis used)</label>
+        <div class="sub2" data-for="lSG"><span class="sw line" style="border-color:var(--sg28);border-top-width:4px"></span> thick green: in the 28</div>
+        <div class="sub2" data-for="lSG"><span class="sw line" style="border-color:var(--sg);border-top-style:dashed"></span> dashed: in the 42, not the 28</div>
+        <label class="chk"><input type="checkbox" id="lTr"><span class="sw" style="background:var(--latino);opacity:.6"></span> 70%+ Latino census tracts</label>
+        <label class="chk"><input type="checkbox" id="lBG"><span class="sw line" style="border-color:#888;border-top-width:2px"></span> All census block groups (outline)</label>
+        <label class="chk"><input type="checkbox" id="lPOI"><span class="sw dot" style="background:var(--ink-soft)"></span> Businesses Advan sees inside park block groups (zoom in)</label>
         <label class="chk"><input type="checkbox" id="lBase" checked><span class="sw" style="background:#ddd"></span> Streets (OpenStreetMap)</label>
       </div>
     </div>
@@ -186,15 +181,13 @@ const POI = {"type":"FeatureCollection","features":[{"type":"Feature","propertie
 const RAIDS = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"label":"Fashion District","site":"Ambiance Apparel","raid_date":"2025-06-05"},"geometry":{"type":"Point","coordinates":[-118.24908,34.03472]}},{"type":"Feature","properties":{"label":"Warehouse District","site":"Ambiance Apparel Headquarter","raid_date":"2025-06-05"},"geometry":{"type":"Point","coordinates":[-118.22952,34.02106]}},{"type":"Feature","properties":{"label":"Westlake","site":"Home Depot","raid_date":"2025-06-06"},"geometry":{"type":"Point","coordinates":[-118.272052,34.056086]}},{"type":"Feature","properties":{"label":"Cypress Park","site":"Home Depot","raid_date":"2025-06-06"},"geometry":{"type":"Point","coordinates":[-118.22429,34.08273]}},{"type":"Feature","properties":{"label":"Paramount","site":"Home Depot","raid_date":"2025-06-07"},"geometry":{"type":"Point","coordinates":[-118.185237,33.888156]}},{"type":"Feature","properties":{"label":"Huntington Park","site":"Home Depot","raid_date":"2025-06-09"},"geometry":{"type":"Point","coordinates":[-118.21407,33.98904]}},{"type":"Feature","properties":{"label":"Whittier","site":"Home Depot","raid_date":"2025-06-09"},"geometry":{"type":"Point","coordinates":[-118.049347,33.965302]}},{"type":"Feature","properties":{"label":"Pacoima","site":"Plaza Pacoima","raid_date":"2025-06-19"},"geometry":{"type":"Point","coordinates":[-118.42535,34.273725]}},{"type":"Feature","properties":{"label":"Ladera Heights","site":"Home Depot","raid_date":"2025-06-22"},"geometry":{"type":"Point","coordinates":[-118.363948,33.988332]}}]};
 const RINGS = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"label":"Fashion District","site":"Ambiance Apparel","raid_date":"2025-06-05"},"geometry":{"type":"Polygon","coordinates":[[[-118.16254,34.02624],[-118.16396,34.01922],[-118.1662,34.01235],[-118.16923,34.0057],[-118.17304,33.99932],[-118.17757,33.99329],[-118.18279,33.98765],[-118.18865,33.98247],[-118.19509,33.97779],[-118.20205,33.97366],[-118.20946,33.97012],[-118.21725,33.96719],[-118.22535,33.96492],[-118.23368,33.96332],[-118.24215,33.96241],[-118.25069,33.96219],[-118.25921,33.96267],[-118.26764,33.96384],[-118.27589,33.9657],[-118.28388,33.96822],[-118.29153,33.97138],[-118.29878,33.97515],[-118.30555,33.97949],[-118.31178,33.98436],[-118.31741,33.98972],[-118.32238,33.99551],[-118.32664,34.00168],[-118.33016,34.00817],[-118.3329,34.01492],[-118.33483,34.02185],[-118.33594,34.02891],[-118.3362,34.03603],[-118.33564,34.04313],[-118.33423,34.05015],[-118.33201,34.05703],[-118.32898,34.06368],[-118.32519,34.07006],[-118.32066,34.07611],[-118.31545,34.08175],[-118.30959,34.08693],[-118.30315,34.09162],[-118.29618,34.09576],[-118.28876,34.09931],[-118.28096,34.10223],[-118.27285,34.10451],[-118.26451,34.10611],[-118.25602,34.10703],[-118.24747,34.10725],[-118.23893,34.10676],[-118.23049,34.10559],[-118.22223,34.10373],[-118.21422,34.10121],[-118.20656,34.09804],[-118.1993,34.09427],[-118.19253,34.08992],[-118.1863,34.08504],[-118.18067,34.07967],[-118.17571,34.07388],[-118.17145,34.0677],[-118.16795,34.06121],[-118.16522,34.05446],[-118.1633,34.04752],[-118.16221,34.04046],[-118.16196,34.03335],[-118.16254,34.02624]]]}},{"type":"Feature","properties":{"label":"Warehouse District","site":"Ambiance Apparel Headquarter","raid_date":"2025-06-05"},"geometry":{"type":"Polygon","coordinates":[[[-118.143,34.01257],[-118.14442,34.00555],[-118.14666,33.99868],[-118.14969,33.99202],[-118.1535,33.98565],[-118.15803,33.97962],[-118.16326,33.97398],[-118.16912,33.9688],[-118.17556,33.96412],[-118.18251,33.95999],[-118.18992,33.95645],[-118.19772,33.95353],[-118.20581,33.95126],[-118.21414,33.94966],[-118.22261,33.94874],[-118.23115,33.94853],[-118.23967,33.94901],[-118.24809,33.95018],[-118.25634,33.95204],[-118.26433,33.95456],[-118.27198,33.95772],[-118.27923,33.96149],[-118.286,33.96584],[-118.29222,33.97071],[-118.29785,33.97607],[-118.30282,33.98187],[-118.30708,33.98804],[-118.31059,33.99453],[-118.31333,34.00127],[-118.31526,34.00821],[-118.31636,34.01527],[-118.31663,34.02238],[-118.31606,34.02948],[-118.31465,34.03651],[-118.31243,34.04338],[-118.3094,34.05004],[-118.30561,34.05642],[-118.30108,34.06246],[-118.29586,34.0681],[-118.29,34.07329],[-118.28356,34.07797],[-118.2766,34.08211],[-118.26918,34.08565],[-118.26138,34.08858],[-118.25327,34.09085],[-118.24493,34.09246],[-118.23645,34.09337],[-118.22789,34.09359],[-118.21935,34.0931],[-118.21091,34.09193],[-118.20265,34.09007],[-118.19465,34.08754],[-118.18699,34.08438],[-118.17974,34.0806],[-118.17296,34.07625],[-118.16674,34.07137],[-118.16111,34.066],[-118.15615,34.0602],[-118.1519,34.05403],[-118.14839,34.04753],[-118.14567,34.04079],[-118.14375,34.03385],[-118.14267,34.02679],[-118.14241,34.01967],[-118.143,34.01257]]]}},{"type":"Feature","properties":{"label":"Westlake","site":"Home Depot","raid_date":"2025-06-06"},"geometry":{"type":"Polygon","coordinates":[[[-118.18549,34.04763],[-118.18691,34.04061],[-118.18914,34.03374],[-118.19218,34.02708],[-118.19598,34.02071],[-118.20051,34.01467],[-118.20573,34.00903],[-118.21159,34.00385],[-118.21803,33.99917],[-118.22499,33.99504],[-118.2324,33.99149],[-118.2402,33.98857],[-118.2483,33.98629],[-118.25662,33.98469],[-118.2651,33.98378],[-118.27364,33.98356],[-118.28217,33.98403],[-118.29059,33.98521],[-118.29885,33.98706],[-118.30684,33.98958],[-118.3145,33.99274],[-118.32175,33.9965],[-118.32853,34.00084],[-118.33476,34.00572],[-118.34039,34.01108],[-118.34536,34.01687],[-118.34963,34.02304],[-118.35315,34.02952],[-118.35589,34.03627],[-118.35782,34.0432],[-118.35893,34.05026],[-118.3592,34.05737],[-118.35863,34.06448],[-118.35723,34.0715],[-118.35501,34.07837],[-118.35199,34.08503],[-118.34819,34.09141],[-118.34367,34.09746],[-118.33845,34.1031],[-118.33259,34.10829],[-118.32615,34.11297],[-118.31918,34.11711],[-118.31176,34.12066],[-118.30396,34.12359],[-118.29585,34.12587],[-118.28751,34.12747],[-118.27902,34.12839],[-118.27046,34.12861],[-118.26192,34.12813],[-118.25348,34.12696],[-118.24521,34.1251],[-118.23721,34.12258],[-118.22954,34.11942],[-118.22228,34.11564],[-118.2155,34.1113],[-118.20927,34.10642],[-118.20364,34.10105],[-118.19867,34.09526],[-118.19441,34.08908],[-118.1909,34.08259],[-118.18818,34.07584],[-118.18626,34.06891],[-118.18516,34.06185],[-118.18491,34.05473],[-118.18549,34.04763]]]}},{"type":"Feature","properties":{"label":"Cypress Park","site":"Home Depot","raid_date":"2025-06-06"},"geometry":{"type":"Polygon","coordinates":[[[-118.1377,34.07424],[-118.13912,34.06722],[-118.14137,34.06035],[-118.1444,34.05369],[-118.14821,34.04732],[-118.15275,34.04128],[-118.15798,34.03565],[-118.16384,34.03047],[-118.17029,34.02579],[-118.17725,34.02166],[-118.18467,34.01812],[-118.19247,34.0152],[-118.20057,34.01293],[-118.2089,34.01133],[-118.21738,34.01042],[-118.22592,34.0102],[-118.23445,34.01068],[-118.24288,34.01186],[-118.25113,34.01372],[-118.25913,34.01624],[-118.26679,34.0194],[-118.27404,34.02317],[-118.28082,34.02751],[-118.28705,34.03239],[-118.29267,34.03775],[-118.29764,34.04354],[-118.30191,34.04971],[-118.30543,34.0562],[-118.30817,34.06295],[-118.3101,34.06988],[-118.3112,34.07694],[-118.31147,34.08406],[-118.3109,34.09116],[-118.30949,34.09818],[-118.30726,34.10505],[-118.30423,34.11171],[-118.30044,34.11809],[-118.2959,34.12413],[-118.29068,34.12977],[-118.28482,34.13496],[-118.27837,34.13964],[-118.2714,34.14377],[-118.26398,34.14732],[-118.25617,34.15025],[-118.24805,34.15252],[-118.23971,34.15412],[-118.23122,34.15504],[-118.22266,34.15525],[-118.21411,34.15477],[-118.20566,34.15359],[-118.1974,34.15173],[-118.18939,34.14921],[-118.18172,34.14604],[-118.17446,34.14226],[-118.16768,34.13791],[-118.16145,34.13303],[-118.15583,34.12767],[-118.15086,34.12187],[-118.14661,34.11569],[-118.1431,34.1092],[-118.14037,34.10245],[-118.13846,34.09551],[-118.13737,34.08845],[-118.13712,34.08134],[-118.1377,34.07424]]]}},{"type":"Feature","properties":{"label":"Paramount","site":"Home Depot","raid_date":"2025-06-07"},"geometry":{"type":"Polygon","coordinates":[[[-118.09887,33.87963],[-118.10029,33.87261],[-118.10253,33.86574],[-118.10556,33.85909],[-118.10936,33.85271],[-118.11389,33.84668],[-118.11911,33.84104],[-118.12496,33.83586],[-118.1314,33.83119],[-118.13834,33.82706],[-118.14574,33.82352],[-118.15352,33.8206],[-118.16161,33.81833],[-118.16992,33.81674],[-118.17838,33.81583],[-118.1869,33.81561],[-118.19541,33.8161],[-118.20382,33.81728],[-118.21205,33.81914],[-118.22002,33.82166],[-118.22766,33.82483],[-118.2349,33.8286],[-118.24165,33.83295],[-118.24786,33.83783],[-118.25348,33.84319],[-118.25843,33.84899],[-118.26268,33.85516],[-118.26619,33.86165],[-118.26892,33.8684],[-118.27084,33.87533],[-118.27194,33.88239],[-118.2722,33.88951],[-118.27163,33.89662],[-118.27022,33.90364],[-118.26799,33.91051],[-118.26497,33.91717],[-118.26118,33.92355],[-118.25665,33.92959],[-118.25144,33.93523],[-118.24559,33.94041],[-118.23916,33.9451],[-118.2322,33.94923],[-118.22479,33.95278],[-118.217,33.9557],[-118.20891,33.95797],[-118.20058,33.95957],[-118.19211,33.96048],[-118.18357,33.96069],[-118.17505,33.96021],[-118.16662,33.95903],[-118.15838,33.95716],[-118.15039,33.95463],[-118.14274,33.95147],[-118.1355,33.94769],[-118.12874,33.94333],[-118.12253,33.93845],[-118.11692,33.93308],[-118.11197,33.92728],[-118.10773,33.9211],[-118.10423,33.9146],[-118.10152,33.90785],[-118.09961,33.90091],[-118.09853,33.89385],[-118.09828,33.88673],[-118.09887,33.87963]]]}},{"type":"Feature","properties":{"label":"Huntington Park","site":"Home Depot","raid_date":"2025-06-09"},"geometry":{"type":"Polygon","coordinates":[[[-118.12759,33.98054],[-118.12901,33.97352],[-118.13125,33.96665],[-118.13428,33.95999],[-118.13809,33.95362],[-118.14262,33.94758],[-118.14784,33.94195],[-118.1537,33.93677],[-118.16014,33.93209],[-118.1671,33.92796],[-118.1745,33.92442],[-118.18229,33.9215],[-118.19038,33.91923],[-118.19871,33.91763],[-118.20717,33.91672],[-118.21571,33.91651],[-118.22423,33.91699],[-118.23265,33.91816],[-118.24089,33.92002],[-118.24888,33.92254],[-118.25653,33.92571],[-118.26377,33.92948],[-118.27054,33.93382],[-118.27676,33.9387],[-118.28238,33.94406],[-118.28734,33.94986],[-118.2916,33.95603],[-118.29511,33.96252],[-118.29785,33.96926],[-118.29978,33.9762],[-118.30088,33.98326],[-118.30114,33.99037],[-118.30057,33.99748],[-118.29917,34.0045],[-118.29694,34.01137],[-118.29392,34.01803],[-118.29012,34.02441],[-118.28559,34.03045],[-118.28038,34.03609],[-118.27452,34.04128],[-118.26808,34.04596],[-118.26112,34.0501],[-118.2537,34.05364],[-118.2459,34.05657],[-118.2378,34.05884],[-118.22946,34.06044],[-118.22098,34.06135],[-118.21243,34.06157],[-118.20389,34.06109],[-118.19546,34.05991],[-118.1872,34.05805],[-118.1792,34.05552],[-118.17154,34.05235],[-118.16429,34.04858],[-118.15752,34.04423],[-118.1513,34.03934],[-118.14568,34.03398],[-118.14072,34.02818],[-118.13647,34.022],[-118.13297,34.0155],[-118.13025,34.00876],[-118.12834,34.00182],[-118.12725,33.99476],[-118.127,33.98764],[-118.12759,33.98054]]]}},{"type":"Feature","properties":{"label":"Whittier","site":"Home Depot","raid_date":"2025-06-09"},"geometry":{"type":"Polygon","coordinates":[[[-117.96291,33.95667],[-117.96434,33.94966],[-117.9666,33.94279],[-117.96964,33.93614],[-117.97346,33.92977],[-117.97801,33.92374],[-117.98324,33.91811],[-117.9891,33.91294],[-117.99555,33.90827],[-118.00251,33.90415],[-118.00993,33.90062],[-118.01772,33.89771],[-118.02581,33.89546],[-118.03414,33.89387],[-118.0426,33.89297],[-118.05114,33.89277],[-118.05965,33.89326],[-118.06807,33.89445],[-118.0763,33.89632],[-118.08428,33.89886],[-118.09192,33.90203],[-118.09916,33.90581],[-118.10591,33.91017],[-118.11212,33.91505],[-118.11773,33.92042],[-118.12268,33.92622],[-118.12692,33.9324],[-118.13042,33.9389],[-118.13314,33.94564],[-118.13505,33.95258],[-118.13614,33.95964],[-118.13639,33.96676],[-118.1358,33.97386],[-118.13438,33.98088],[-118.13215,33.98775],[-118.12911,33.99441],[-118.1253,34.00078],[-118.12076,34.00682],[-118.11554,34.01245],[-118.10967,34.01763],[-118.10322,34.0223],[-118.09625,34.02643],[-118.08883,34.02996],[-118.08103,34.03288],[-118.07292,34.03514],[-118.06459,34.03673],[-118.0561,34.03763],[-118.04755,34.03783],[-118.03902,34.03733],[-118.03059,34.03614],[-118.02234,34.03427],[-118.01435,34.03173],[-118.0067,34.02855],[-117.99946,34.02477],[-117.9927,34.02041],[-117.98649,34.01552],[-117.98089,34.01014],[-117.97594,34.00433],[-117.97171,33.99815],[-117.96822,33.99165],[-117.96551,33.9849],[-117.96361,33.97796],[-117.96254,33.97089],[-117.96231,33.96378],[-117.96291,33.95667]]]}},{"type":"Feature","properties":{"label":"Pacoima","site":"Plaza Pacoima","raid_date":"2025-06-19"},"geometry":{"type":"Polygon","coordinates":[[[-118.33853,34.26539],[-118.33994,34.25837],[-118.34217,34.25149],[-118.3452,34.24483],[-118.349,34.23845],[-118.35353,34.23241],[-118.35876,34.22677],[-118.36462,34.22158],[-118.37107,34.21689],[-118.37804,34.21275],[-118.38547,34.2092],[-118.39328,34.20626],[-118.40139,34.20398],[-118.40974,34.20237],[-118.41824,34.20144],[-118.4268,34.20121],[-118.43535,34.20168],[-118.44381,34.20284],[-118.45208,34.20468],[-118.4601,34.20719],[-118.46779,34.21033],[-118.47507,34.21409],[-118.48187,34.21842],[-118.48813,34.22328],[-118.49379,34.22863],[-118.49878,34.23442],[-118.50307,34.24058],[-118.50662,34.24706],[-118.50938,34.2538],[-118.51133,34.26073],[-118.51246,34.26778],[-118.51274,34.2749],[-118.51219,34.282],[-118.5108,34.28902],[-118.50858,34.2959],[-118.50556,34.30256],[-118.50177,34.30894],[-118.49724,34.31499],[-118.49202,34.32064],[-118.48616,34.32583],[-118.47971,34.33053],[-118.47273,34.33467],[-118.4653,34.33823],[-118.45748,34.34117],[-118.44935,34.34346],[-118.44099,34.34508],[-118.43248,34.346],[-118.4239,34.34623],[-118.41533,34.34577],[-118.40686,34.3446],[-118.39857,34.34276],[-118.39054,34.34025],[-118.38284,34.3371],[-118.37555,34.33333],[-118.36875,34.329],[-118.36249,34.32413],[-118.35684,34.31877],[-118.35184,34.31298],[-118.34756,34.30682],[-118.34403,34.30033],[-118.34128,34.29359],[-118.33934,34.28666],[-118.33823,34.2796],[-118.33796,34.27249],[-118.33853,34.26539]]]}},{"type":"Feature","properties":{"label":"Ladera Heights","site":"Home Depot","raid_date":"2025-06-22"},"geometry":{"type":"Polygon","coordinates":[[[-118.27745,33.97994],[-118.27886,33.97292],[-118.28108,33.96605],[-118.28411,33.95939],[-118.2879,33.95301],[-118.29242,33.94697],[-118.29763,33.94133],[-118.30348,33.93614],[-118.30991,33.93145],[-118.31686,33.92732],[-118.32426,33.92376],[-118.33204,33.92083],[-118.34013,33.91855],[-118.34845,33.91694],[-118.35692,33.91602],[-118.36545,33.9158],[-118.37397,33.91627],[-118.38239,33.91743],[-118.39064,33.91928],[-118.39863,33.92179],[-118.40629,33.92494],[-118.41354,33.92871],[-118.42031,33.93304],[-118.42654,33.93791],[-118.43217,33.94326],[-118.43715,33.94905],[-118.44142,33.95522],[-118.44494,33.9617],[-118.44769,33.96844],[-118.44963,33.97538],[-118.45074,33.98244],[-118.45102,33.98955],[-118.45046,33.99665],[-118.44907,34.00368],[-118.44686,34.01055],[-118.44385,34.01722],[-118.44007,34.0236],[-118.43555,34.02965],[-118.43034,34.03529],[-118.4245,34.04049],[-118.41806,34.04518],[-118.41111,34.04933],[-118.4037,34.05288],[-118.39591,34.05582],[-118.38781,34.0581],[-118.37948,34.05971],[-118.37099,34.06064],[-118.36244,34.06086],[-118.35391,34.06039],[-118.34547,34.05922],[-118.33721,34.05737],[-118.32921,34.05486],[-118.32154,34.0517],[-118.31429,34.04793],[-118.30751,34.04359],[-118.30127,34.03872],[-118.29565,34.03336],[-118.29068,34.02756],[-118.28641,34.02139],[-118.2829,34.0149],[-118.28017,34.00816],[-118.27824,34.00122],[-118.27714,33.99416],[-118.27688,33.98705],[-118.27745,33.97994]]]}}]};
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const AG = {'LA County': css('--county'), 'City of Los Angeles': css('--cityla'), 'Other city': css('--othercity'),
-            'State of California': css('--state'), 'Federal': css('--federal')};
 const map = new maplibregl.Map({
   container: 'map', center: [-118.25, 34.05], zoom: 9.2, attributionControl: false,
   style: { version: 8, sources: {
       osm: { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256,
              attribution: '© OpenStreetMap contributors' } },
     layers: [ { id: 'ground', type: 'background', paint: { 'background-color': css('--ground') } },
-              { id: 'osm', type: 'raster', source: 'osm', paint: { 'raster-opacity': 0.55, 'raster-saturation': -0.6 } } ] }
+              { id: 'osm', type: 'raster', source: 'osm', paint: { 'raster-opacity': 0.5, 'raster-saturation': -0.85 } } ] }
 });
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
 map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'Parks: LA County Parks & Open Space, SafeGraph · Visits: Advan Neighborhood Patterns+' }));
@@ -212,47 +205,52 @@ map.on('load', () => {
     paint: { 'fill-color': css('--latino'), 'fill-opacity': ['case', ['==', ['get', 'nbhd_class'], '70+ Latino'], 0.28, 0] } });
   map.addLayer({ id: 'tr-line', type: 'line', source: 'tr', layout: { visibility: 'none' },
     paint: { 'line-color': '#6b6b6b', 'line-width': 0.8 } });
-  map.addLayer({ id: 'bg-tier', type: 'fill', source: 'bg', filter: ['!=', ['get', 'tier'], ''],
-    paint: { 'fill-color': ['match', ['get', 'tier'], '75%+ park', css('--t75'), '50-75% park', css('--t50'), css('--t25')],
-             'fill-opacity': 0.55 } });
-  map.addLayer({ id: 'bg-line', type: 'line', source: 'bg',
+  const BIG = ['in', ['get', 'tier'], ['literal', ['75%+ park', '50-75% park']]];
+  const OUT = ['any', ['!=', ['get', 'stadium'], ''], ['!=', ['get', 'note'], '']];
+  map.addLayer({ id: 'bg-mid', type: 'fill', source: 'bg', filter: ['==', ['get', 'tier'], '25-50% park'], layout: { visibility: 'none' },
+    paint: { 'fill-color': css('--t25'), 'fill-opacity': 0.6 } });
+  map.addLayer({ id: 'bg-tier', type: 'fill', source: 'bg', filter: ['all', BIG, ['!', OUT]],
+    paint: { 'fill-color': css('--t75'), 'fill-opacity': 0.7, 'fill-outline-color': css('--t75') } });
+  map.addLayer({ id: 'bg-out', type: 'fill', source: 'bg', filter: ['all', BIG, OUT], paint: { 'fill-color': '#000', 'fill-opacity': 0 } });
+  map.addLayer({ id: 'bg-line', type: 'line', source: 'bg', layout: { visibility: 'none' },
     paint: { 'line-color': '#555', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.15, 13, 0.9] } });
-  map.addLayer({ id: 'bg-stadium', type: 'line', source: 'bg', filter: ['!=', ['get', 'stadium'], ''],
-    paint: { 'line-color': css('--stadium'), 'line-width': 2.5, 'line-dasharray': [2, 1.5] } });
+  map.addLayer({ id: 'bg-stadium', type: 'line', source: 'bg', filter: ['all', BIG, OUT],
+    paint: { 'line-color': css('--stadium'), 'line-width': 2.2, 'line-dasharray': [2, 1.5] } });
   map.addLayer({ id: 'cp-fill', type: 'fill', source: 'cp',
-    paint: { 'fill-color': ['match', ['get', 'run_by_type'], 'LA County', AG['LA County'], 'City of Los Angeles', AG['City of Los Angeles'],
-             'Other city', AG['Other city'], 'State of California', AG['State of California'], 'Federal', AG['Federal'], css('--otherag')],
-             'fill-opacity': 0.45 } });
-  map.addLayer({ id: 'cp-line', type: 'line', source: 'cp', paint: { 'line-color': '#333', 'line-width': 0.4, 'line-opacity': 0.6 } });
+    layout: { visibility: 'none' },
+    paint: { 'fill-color': ['match', ['get', 'run_by_type'], 'LA County', css('--county'), 'City of Los Angeles', css('--cityla'), css('--otherag')],
+             'fill-opacity': 0.5 } });
+  map.addLayer({ id: 'cp-line', type: 'line', source: 'cp', layout: { visibility: 'none' },
+    paint: { 'line-color': '#333', 'line-width': 0.4, 'line-opacity': 0.5 } });
   // line-dasharray takes no data expressions in MapLibre 4, so the dashed 42 get their own layer
-  map.addLayer({ id: 'sg-line', type: 'line', source: 'sg', filter: ['!=', ['get', 'status'], 'In the 42, not the 28'],
+  map.addLayer({ id: 'sg-line', type: 'line', source: 'sg', filter: ['!=', ['get', 'status'], 'In the 42, not the 28'], layout: { visibility: 'none' },
     paint: { 'line-color': ['case', ['==', ['get', 'status'], 'In the 28'], css('--sg28'), css('--sg')],
              'line-width': ['case', ['==', ['get', 'status'], 'In the 28'], 3.2, 1.1] } });
-  map.addLayer({ id: 'sg-line-42', type: 'line', source: 'sg', filter: ['==', ['get', 'status'], 'In the 42, not the 28'],
+  map.addLayer({ id: 'sg-line-42', type: 'line', source: 'sg', filter: ['==', ['get', 'status'], 'In the 42, not the 28'], layout: { visibility: 'none' },
     paint: { 'line-color': css('--sg'), 'line-width': 2, 'line-dasharray': [3, 1.5] } });
-  map.addLayer({ id: 'sg-fill', type: 'fill', source: 'sg', paint: { 'fill-color': '#000', 'fill-opacity': 0 } });
+  map.addLayer({ id: 'sg-fill', type: 'fill', source: 'sg', layout: { visibility: 'none' }, paint: { 'fill-color': '#000', 'fill-opacity': 0 } });
   map.addLayer({ id: 'poi', type: 'circle', source: 'poi', layout: { visibility: 'none' }, minzoom: 11,
     paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2.5, 15, 6],
              'circle-color': ['match', ['get', 'kind'], 'everyday park amenity', css('--t75'), 'booked or paid', '#b8860b',
                               'non-park (hotel, parking, mall, office)', css('--stadium'), '#5f5f5f'],
              'circle-stroke-color': '#fff', 'circle-stroke-width': 1 } });
-  map.addLayer({ id: 'rings', type: 'line', source: 'rings', paint: { 'line-color': css('--raid'), 'line-width': 1.2, 'line-dasharray': [3, 2] } });
+  map.addLayer({ id: 'rings', type: 'line', source: 'rings', layout: { visibility: 'none' }, paint: { 'line-color': css('--raid'), 'line-width': 1.2, 'line-dasharray': [3, 2] } });
   map.addLayer({ id: 'raids', type: 'circle', source: 'raids',
     paint: { 'circle-radius': 6, 'circle-color': css('--raid'), 'circle-stroke-color': '#fff', 'circle-stroke-width': 2 } });
   map.addLayer({ id: 'sel', type: 'line', source: 'bg', filter: ['==', ['get', 'cbg'], ''], paint: { 'line-color': '#111', 'line-width': 3 } });
 
   const vis = (ids, on) => ids.forEach(id => map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
   const bind = (box, ids) => document.getElementById(box).addEventListener('change', e => vis(ids, e.target.checked));
-  bind('lBG', ['bg-line']); bind('lTier', ['bg-tier', 'bg-stadium']); bind('lTr', ['tr-fill', 'tr-line']);
+  bind('lBG', ['bg-line']); bind('lTier', ['bg-tier', 'bg-out', 'bg-stadium']); bind('lMid', ['bg-mid']); bind('lTr', ['tr-fill', 'tr-line']);
   bind('lCP', ['cp-fill', 'cp-line']); bind('lSG', ['sg-line', 'sg-line-42', 'sg-fill']); bind('lPOI', ['poi']);
-  bind('lRaid', ['raids', 'rings']); bind('lBase', ['osm']);
-  for (const id of ['bg-tier', 'cp-fill', 'sg-fill', 'poi', 'raids']) {
+  bind('lRaid', ['raids']); bind('lRing', ['rings']); bind('lBase', ['osm']);
+  for (const id of ['bg-tier', 'bg-out', 'bg-mid', 'cp-fill', 'sg-fill', 'poi', 'raids']) {
     map.on('mouseenter', id, () => map.getCanvas().style.cursor = 'pointer');
     map.on('mouseleave', id, () => map.getCanvas().style.cursor = '');
   }
 
   map.on('click', e => {
-    const order = ['poi', 'raids', 'sg-fill', 'cp-fill', 'bg-tier', 'bg-line'];
+    const order = ['poi', 'raids', 'sg-fill', 'cp-fill', 'bg-tier', 'bg-out', 'bg-mid', 'bg-line'];
     const hits = map.queryRenderedFeatures(e.point, { layers: order.filter(l => map.getLayer(l)) });
     if (!hits.length) return;
     hits.sort((a, b) => order.indexOf(a.layer.id) - order.indexOf(b.layer.id));
@@ -267,6 +265,7 @@ map.on('load', () => {
   document.getElementById('q').addEventListener('change', e => {
     const q = e.target.value.trim().toLowerCase(); if (!q) return;
     let f = BG.features.find(x => x.properties.cbg === q) ||
+            BG.features.find(x => (x.properties.main_park || '').toLowerCase().includes(q) && /^(75|50)/.test(x.properties.tier || '')) ||
             BG.features.find(x => (x.properties.main_park || '').toLowerCase().includes(q) && x.properties.tier) ||
             SG.features.find(x => (x.properties.name || '').toLowerCase().includes(q)) ||
             CP.features.find(x => (x.properties.name || '').toLowerCase().includes(q));
@@ -276,6 +275,11 @@ map.on('load', () => {
   });
 });
 
+document.querySelectorAll('[data-for]').forEach(el => {
+  const box = document.getElementById(el.dataset.for);
+  const sync = () => { el.hidden = !box.checked; };
+  box.addEventListener('change', sync); sync();
+});
 function themeColors() {
   map.setPaintProperty('ground', 'background-color', css('--ground'));
   map.setPaintProperty('sg-line', 'line-color', ['case', ['==', ['get', 'status'], 'In the 28'], css('--sg28'), css('--sg')]);
@@ -335,7 +339,7 @@ function showBG(p) {
   document.getElementById('detail').innerHTML = h;
 }
 function showPark(p, hits) {
-  const bg = hits.find(x => x.layer.id === 'bg-tier' || x.layer.id === 'bg-line'); select(bg ? bg.properties.cbg : '');
+  const bg = hits.find(x => x.layer.id.startsWith('bg-')); select(bg ? bg.properties.cbg : '');
   let h = `<b class="t">${esc(p.name)}</b><p class="mono">SafeGraph park boundary · ${fmt(p.acres)} acres</p>
     <div class="k">Business-based analysis</div><p><b>${esc(p.status)}</b>${p.exclusion_reason ? '<br>' + esc(p.exclusion_reason) : ''}</p>
     <p>${fmt(p.businesses_inside)} businesses inside · run by ${esc(p.managed_by || 'unknown')}</p>`;
@@ -343,7 +347,7 @@ function showPark(p, hits) {
   document.getElementById('detail').innerHTML = h;
 }
 function showOfficial(p, hits) {
-  const bg = hits.find(x => x.layer.id === 'bg-tier' || x.layer.id === 'bg-line'); select(bg ? bg.properties.cbg : '');
+  const bg = hits.find(x => x.layer.id.startsWith('bg-')); select(bg ? bg.properties.cbg : '');
   let h = `<b class="t">${esc(p.name)}</b><p class="mono">Official park (LA County layer) · ${fmt(p.acres)} acres</p>
     <div class="k">Who runs it</div><p>${esc(p.run_by || 'not stated')}${p.owner && p.owner !== p.run_by ? ' · land owned by ' + esc(p.owner) : ''}</p>
     <p>${esc(p.access || '')}${p.picnic ? ' · picnic areas: ' + p.picnic : ''}${p.trail_miles ? ' · trails: ' + Number(p.trail_miles).toFixed(1) + ' mi' : ''}</p>`;
