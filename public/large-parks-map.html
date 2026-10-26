@@ -6,92 +6,137 @@
 <title>What Are the Large Parks?</title>
 <meta name="description" content="The census block groups behind the Neighborhood Patterns+ park result, with the official parks, SafeGraph park boundaries and businesses inside each one.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Lexend:wght@300;400;600;700&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try { var t = localStorage.getItem('cof-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>
+  /* LPPI style, as on the site index (after latino.ucla.edu): UCLA Blue #2774AE,
+     darkest blue #003B5C for the title band, LPPI teal #007989 for labels and links,
+     Tailwind grays, bold condensed uppercase headings at 90% leading. Barlow Condensed
+     stands in for the licensed Aktiv Grotesk Condensed; Inter for body text. */
   :root {
-    --ground: #f2f2f2; --panel: #ffffff; --ink: #1b3f60; --ink-soft: #3d5a75; --ink-faint: #5f768b;
-    --rule: #b9c9d4; --accent: #1d6385; --land: #e6edf2;
+    --brand: #2774ae; --brand-darker: #003b5c; --brand-light: #8bb8e8; --hero-soft: #c3d7ee; --teal: #007989;
+    --ground: #f3f4f6; --panel: #ffffff; --ink: #111827; --ink-soft: #374151; --ink-faint: #6b7280;
+    --rule: #e5e7eb; --rule-firm: #d1d5db; --accent: var(--teal);
+    --display: 'Barlow Condensed', 'Arial Narrow', Inter, system-ui, sans-serif;
+    --body: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     --t75: #1b7a3f; --t50: #3d9a5c; --t25: #a3c9a8; --stadium: #c0392b; --latino: #d99a22;
     --county: #2a78d6; --cityla: #8e44ad; --othercity: #e07b1f; --state: #16a085; --federal: #7f8c8d; --otherag: #b8b8b8;
     --sg: #1b1b1b; --sg28: #1b7a3f; --raid: #a8321f;
-    --shadow: 0 1px 2px rgba(23,32,26,.06), 0 10px 30px rgba(23,32,26,.10);
+    color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --ground: #0e1a24; --panel: #152532; --ink: #e3ebf1; --ink-soft: #c0d0dc; --ink-faint: #9db3c4;
-      --rule: #2a3d4d; --accent: #5b9cc4; --land: #16293a; --sg: #f0f0f0;
-      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
+      --brand: #5b9cc4; --brand-darker: #0b1c28; --teal: #4fb3bf;
+      --ground: #0e1a24; --panel: #152532; --ink: #e3ebf1; --ink-soft: #c0d0dc; --ink-faint: #8ba3b6;
+      --rule: #2a3d4d; --rule-firm: #375061; --sg: #f0f0f0;
     }
   }
   :root[data-theme="dark"] {
-    --ground: #0e1a24; --panel: #152532; --ink: #e3ebf1; --ink-soft: #c0d0dc; --ink-faint: #9db3c4;
-    --rule: #2a3d4d; --accent: #5b9cc4; --land: #16293a; --sg: #f0f0f0;
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
+    --brand: #5b9cc4; --brand-darker: #0b1c28; --teal: #4fb3bf;
+    --ground: #0e1a24; --panel: #152532; --ink: #e3ebf1; --ink-soft: #c0d0dc; --ink-faint: #8ba3b6;
+    --rule: #2a3d4d; --rule-firm: #375061; --sg: #f0f0f0;
   }
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"] { color-scheme: dark; }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14.5px/1.5 Lexend, system-ui, sans-serif; }
-  .shell { display: grid; grid-template-rows: auto 1fr; height: 100vh; min-height: 620px; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.5 var(--body); -webkit-font-smoothing: antialiased; }
+  .shell { display: grid; grid-template-rows: auto auto 1fr; height: 100vh; min-height: 640px; }
   @media (max-width: 860px) { .shell { height: auto; } }
-  header { padding: 12px 16px; border-bottom: 1px solid var(--rule); background: var(--panel); display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: baseline; }
-  h1 { font: 400 21px/1.15 Lexend, sans-serif; margin: 0; }
-  header .sub { color: var(--ink-soft); font-size: 13px; max-width: 70ch; }
-  .counts { margin-left: auto; display: flex; gap: 18px; }
-  .counts div { text-align: right; }
-  .counts b { display: block; font: 500 17px/1.2 "IBM Plex Mono", monospace; }
-  .counts span { font-size: 11px; color: var(--ink-faint); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* Top bar: wordmark left, links and theme toggle right, thin rule under. */
+  .topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; padding: 10px 16px;
+            background: var(--panel); border-bottom: 1px solid var(--rule); }
+  .wordmark { font: 700 16px/1.05 var(--display); text-transform: uppercase; letter-spacing: .02em;
+              color: var(--brand-darker); margin: 0; max-width: 22ch; }
+  :root[data-theme="dark"] .wordmark { color: var(--ink); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .wordmark { color: var(--ink); } }
+  .topbar nav { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+  .topbar nav a { font: 500 11.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+                  color: var(--teal); text-decoration: none; }
+  .topbar nav a:hover { text-decoration: underline; }
+  .topbar button { font: 500 11.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
+                   padding: 8px 12px; border: 1px solid var(--rule-firm); border-radius: 2px;
+                   background: transparent; color: var(--ink-soft); cursor: pointer; }
+  .topbar button:hover { border-color: var(--brand); color: var(--brand); }
+
+  /* Title band: solid darkest blue, condensed uppercase headline, counts at right. */
+  .hero { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 36px; padding: 16px 16px 18px;
+          background: var(--brand-darker); color: #fff; }
+  .eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--brand-light); margin: 0 0 9px; }
+  .hero h1 { font: 700 clamp(28px, 3.6vw, 42px)/.9 var(--display); text-transform: uppercase; letter-spacing: -.01em; margin: 0; }
+  .hero .sub { margin: 9px 0 0; max-width: 74ch; font-size: 14px; line-height: 1.5; color: var(--hero-soft); }
+  .counts { margin-left: auto; display: flex; gap: 12px 30px; }
+  .counts b { display: block; font: 700 32px/1 var(--display); color: #fff; }
+  .counts span { display: block; margin-top: 4px; font: 500 10.5px/1.3 var(--mono); letter-spacing: .09em;
+                 text-transform: uppercase; color: var(--brand-light); max-width: 16ch; }
+  @media (max-width: 860px) { .counts { margin-left: 0; } }
+
   .body { display: grid; grid-template-columns: 290px minmax(0, 1fr) 340px; min-height: 0; }
   @media (max-width: 1100px) { .body { grid-template-columns: 250px minmax(0,1fr); } .rail { display: none; } }
   @media (max-width: 860px) { .body { grid-template-columns: 1fr; } #map { height: 60vh; } }
   .controls, .rail { background: var(--panel); overflow-y: auto; min-height: 0; }
   .controls { border-right: 1px solid var(--rule); }
   .rail { border-left: 1px solid var(--rule); }
-  .grp { padding: 12px 16px; border-bottom: 1px solid var(--rule); }
-  .grp h2 { font: 600 11px/1 Lexend, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 8px; }
+  .grp { padding: 13px 16px; border-bottom: 1px solid var(--rule); }
+  .grp h2 { font: 500 10.5px/1 var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--teal); margin: 0 0 9px; }
   label.chk { display: flex; gap: 8px; align-items: center; font-size: 13.5px; padding: 3px 0; cursor: pointer; }
+  input[type="checkbox"] { accent-color: var(--brand); }
   .sw { width: 13px; height: 13px; border-radius: 2px; flex: none; border: 1px solid rgba(0,0,0,.25); }
   .sw.dot { border-radius: 50%; }
   .sw.line { height: 0; border: 0; border-top: 3px solid; }
   .sub2 { padding-left: 21px; font-size: 12.5px; color: var(--ink-soft); display: flex; gap: 8px; align-items: center; }
-  input[type="search"] { width: 100%; font: inherit; font-size: 13.5px; padding: 7px 9px; border: 1px solid var(--rule); background: var(--ground); color: var(--ink); border-radius: 3px; }
+  input[type="search"] { width: 100%; font: inherit; font-size: 13.5px; padding: 8px 10px; border: 1px solid var(--rule-firm);
+                         background: var(--panel); color: var(--ink); border-radius: 2px; }
   #map { min-height: 420px; }
-  .detail { padding: 14px 16px; border-bottom: 1px solid var(--rule); }
-  .detail b.t { font: 600 15px/1.25 Lexend, sans-serif; display: block; }
-  .detail .k { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); margin: 12px 0 2px; }
+  .detail { padding: 14px 16px 16px; border-top: 3px solid var(--brand); border-bottom: 1px solid var(--rule); }
+  .detail b.t { display: block; font: 700 22px/1 var(--display); text-transform: uppercase; letter-spacing: -.005em; text-wrap: balance; }
+  .detail .k { font: 500 10.5px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin: 14px 0 3px; }
   .detail p { margin: 0; font-size: 13px; }
-  .detail .mono { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; }
+  .detail .mono { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
   .bars { display: grid; grid-template-columns: 48px 1fr 56px; gap: 4px 8px; align-items: center; font-size: 12.5px; margin-top: 4px; }
-  .bars .b { height: 10px; background: var(--t50); border-radius: 2px; }
-  .bars .n { font-family: "IBM Plex Mono", monospace; text-align: right; }
+  .bars .b { height: 10px; background: var(--brand); }
+  .bars .n { font-family: var(--mono); text-align: right; }
   .caveat { padding: 14px 16px; font-size: 12.5px; color: var(--ink-soft); }
   .caveat p { margin: 0 0 9px; }
   .caveat strong { color: var(--ink); }
-  .maplibregl-popup-content { background: var(--panel); color: var(--ink); border: 1px solid var(--rule); font: inherit; padding: 8px 10px; border-radius: 3px; font-size: 13px; }
-  .maplibregl-ctrl-group { background: var(--panel); }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  a { color: var(--accent); }
+  .maplibregl-popup-content { background: var(--panel); color: var(--ink); border: 1px solid var(--rule); font: inherit;
+                              padding: 8px 10px; border-radius: 2px; font-size: 13px; }
+  .maplibregl-ctrl-group { background: #fff; border-radius: 2px; }
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  a { color: var(--teal); }
 </style>
 </head>
 <body>
 <div class="shell">
-  <header>
+  <div class="topbar">
+    <p class="wordmark">UCLA Latino Policy &amp; Politics Institute</p>
+    <nav aria-label="Site">
+      <a href="./">All findings and tools</a>
+      <a href="./parks">Can you measure parks?</a>
+      <button type="button" id="theme" aria-label="Switch color theme">Theme: Auto</button>
+    </nav>
+  </div>
+  <header class="hero">
     <div>
-      <p style="font:600 11px/1 Lexend,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 6px">UCLA Latino Policy &amp; Politics Institute</p>
-      <h1>What are the "large parks"?</h1>
-      <div class="sub">Neighborhood Patterns+ counts stops in census block groups. The green block groups are the ones that are mostly parkland, which is what the large-park result rests on. Click one to see what is in it.</div>
+      <p class="eyebrow">Parks · Advan Neighborhood Patterns+</p>
+      <h1>What are the large parks?</h1>
+      <p class="sub">Neighborhood Patterns+ counts stops in census block groups. The green block groups are the ones that are mostly parkland, which is what the large-park result rests on. Click one to see what is in it.</p>
     </div>
     <div class="counts">
       <div><b>170</b><span>park block groups (25%+)</span></div>
       <div><b>49</b><span>mostly park (50%+)</span></div>
       <div><b>46</b><span>used in the result</span></div>
     </div>
-    <div style="flex-basis:100%"><a href="./" style="font-size:13px;text-decoration:none">&larr; Replication guide</a> · <a href="./parks" style="font-size:13px;text-decoration:none">Read the write-up</a></div>
   </header>
   <div class="body">
     <div class="controls">
       <div class="grp"><h2>Find a park or block group</h2>
         <input type="search" id="q" placeholder="Whittier Narrows, Hansen Dam, 060379800361…" aria-label="Search"></div>
       <div class="grp"><h2>Block groups</h2>
-        <label class="chk"><input type="checkbox" id="lBG" checked><span class="sw" style="background:transparent;border-color:#888"></span> All census block groups (outline)</label>
+        <label class="chk"><input type="checkbox" id="lBG" checked><span class="sw line" style="border-color:#888;border-top-width:2px"></span> All census block groups (outline)</label>
         <label class="chk"><input type="checkbox" id="lTier" checked><span class="sw" style="background:var(--t50)"></span> Park block groups, by share of land that is park</label>
         <div class="sub2"><span class="sw" style="background:var(--t75)"></span>75%+ &nbsp; <span class="sw" style="background:var(--t50)"></span>50–75% &nbsp; <span class="sw" style="background:var(--t25)"></span>25–50%</div>
         <div class="sub2"><span class="sw" style="background:transparent;border:2px dashed var(--stadium)"></span> left out: holds a stadium or arena</div>
@@ -108,6 +153,7 @@
           <span><span class="sw" style="background:var(--otherag);display:inline-block;vertical-align:middle"></span> other</span></div>
         <label class="chk"><input type="checkbox" id="lSG" checked><span class="sw line" style="border-color:var(--sg)"></span> SafeGraph park boundaries (what the business analysis used)</label>
         <div class="sub2"><span class="sw line" style="border-color:var(--sg28);border-top-width:4px"></span> thick green: in the 28</div>
+        <div class="sub2"><span class="sw line" style="border-color:var(--sg);border-top-style:dashed"></span> dashed: in the 42, not the 28</div>
         <label class="chk"><input type="checkbox" id="lPOI"><span class="sw dot" style="background:var(--ink-soft)"></span> Businesses Advan sees inside park block groups</label>
       </div>
       <div class="grp"><h2>Enforcement</h2>
@@ -178,10 +224,12 @@ map.on('load', () => {
              'Other city', AG['Other city'], 'State of California', AG['State of California'], 'Federal', AG['Federal'], css('--otherag')],
              'fill-opacity': 0.45 } });
   map.addLayer({ id: 'cp-line', type: 'line', source: 'cp', paint: { 'line-color': '#333', 'line-width': 0.4, 'line-opacity': 0.6 } });
-  map.addLayer({ id: 'sg-line', type: 'line', source: 'sg',
+  // line-dasharray takes no data expressions in MapLibre 4, so the dashed 42 get their own layer
+  map.addLayer({ id: 'sg-line', type: 'line', source: 'sg', filter: ['!=', ['get', 'status'], 'In the 42, not the 28'],
     paint: { 'line-color': ['case', ['==', ['get', 'status'], 'In the 28'], css('--sg28'), css('--sg')],
-             'line-width': ['case', ['==', ['get', 'status'], 'In the 28'], 3.2, ['==', ['get', 'status'], 'In the 42, not the 28'], 2, 1.1],
-             'line-dasharray': ['case', ['==', ['get', 'status'], 'In the 42, not the 28'], ['literal', [3, 1.5]], ['literal', [1, 0]]] } });
+             'line-width': ['case', ['==', ['get', 'status'], 'In the 28'], 3.2, 1.1] } });
+  map.addLayer({ id: 'sg-line-42', type: 'line', source: 'sg', filter: ['==', ['get', 'status'], 'In the 42, not the 28'],
+    paint: { 'line-color': css('--sg'), 'line-width': 2, 'line-dasharray': [3, 1.5] } });
   map.addLayer({ id: 'sg-fill', type: 'fill', source: 'sg', paint: { 'fill-color': '#000', 'fill-opacity': 0 } });
   map.addLayer({ id: 'poi', type: 'circle', source: 'poi', layout: { visibility: 'none' }, minzoom: 11,
     paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2.5, 15, 6],
@@ -196,7 +244,7 @@ map.on('load', () => {
   const vis = (ids, on) => ids.forEach(id => map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
   const bind = (box, ids) => document.getElementById(box).addEventListener('change', e => vis(ids, e.target.checked));
   bind('lBG', ['bg-line']); bind('lTier', ['bg-tier', 'bg-stadium']); bind('lTr', ['tr-fill', 'tr-line']);
-  bind('lCP', ['cp-fill', 'cp-line']); bind('lSG', ['sg-line', 'sg-fill']); bind('lPOI', ['poi']);
+  bind('lCP', ['cp-fill', 'cp-line']); bind('lSG', ['sg-line', 'sg-line-42', 'sg-fill']); bind('lPOI', ['poi']);
   bind('lRaid', ['raids', 'rings']); bind('lBase', ['osm']);
   for (const id of ['bg-tier', 'cp-fill', 'sg-fill', 'poi', 'raids']) {
     map.on('mouseenter', id, () => map.getCanvas().style.cursor = 'pointer');
@@ -227,6 +275,27 @@ map.on('load', () => {
     if (f.properties.cbg) showBG(f.properties); else if (f.properties.status) showPark(f.properties, []); else showOfficial(f.properties, []);
   });
 });
+
+function themeColors() {
+  map.setPaintProperty('ground', 'background-color', css('--ground'));
+  map.setPaintProperty('sg-line', 'line-color', ['case', ['==', ['get', 'status'], 'In the 28'], css('--sg28'), css('--sg')]);
+  map.setPaintProperty('sg-line-42', 'line-color', css('--sg'));
+}
+(function () {
+  const btn = document.getElementById('theme');
+  const THEMES = ['auto', 'light', 'dark'];
+  const LABELS = { auto: 'Theme: Auto', light: 'Theme: Light', dark: 'Theme: Dark' };
+  const current = () => { const t = document.documentElement.dataset.theme; return t === 'light' || t === 'dark' ? t : 'auto'; };
+  btn.textContent = LABELS[current()];
+  btn.addEventListener('click', () => {
+    const t = THEMES[(THEMES.indexOf(current()) + 1) % THEMES.length];
+    if (t === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+    btn.textContent = LABELS[t];
+    try { if (t === 'auto') localStorage.removeItem('cof-theme'); else localStorage.setItem('cof-theme', t); } catch (e) {}
+    if (map.getLayer('sg-line')) themeColors();
+  });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (map.getLayer('sg-line')) themeColors(); });
+})();
 
 function popup(ll, html) { new maplibregl.Popup({ closeButton: false }).setLngLat(ll).setHTML(html).addTo(map); }
 const esc = s => String(s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
